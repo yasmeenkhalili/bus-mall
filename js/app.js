@@ -48,13 +48,26 @@ for(let i=0;i<products.length;i++){
 }
 
 let form=document.getElementById('results');
+form.addEventListener('submit', viewResult);
+function viewResult(event){
+  event.preventDefault();
+  theResults();
+}
+
+// form.addEventListener('reset',function(event){
+//   event.preventDefault();
+//   form.removeEventListener('submit',viewResult);
+//   render();
+
+// });
+
 
 function theResults(){
   let unorderedList=document.createElement('ul');
   for(let i=0;i<products.length;i++){
     let resultList=document.createElement('li');
     unorderedList.appendChild(resultList);
-    let final=products[i]+' has '+ Product.all[i].votes+' votes.';
+    let final=products[i]+' has '+ Product.all[i].views+' votes, '+' and was seen '+Product.all[i].votes+' times.';
     resultList.innerText=final;
   }
   form.appendChild(unorderedList);
@@ -62,7 +75,7 @@ function theResults(){
 
 function render(){
   if (clicks===25){
-    theResults();
+    imageSection.removeEventListener('click',clickHandler);
   }
   const leftIndex=randomNumber(0,Product.all.length-1);
   const leftRandomProduct=Product.all[leftIndex];
