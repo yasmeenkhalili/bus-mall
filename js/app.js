@@ -95,7 +95,7 @@ function render(){
   rightImage.title=rightRandomProduct.name;
   rightImage.alt=rightRandomProduct.name;
 
-  clicks++;
+  
   console.log(clicks);
 }
 
@@ -106,6 +106,7 @@ function clickHandler(event){
     for(let i=0;i<Product.all.length ;i++){
       if (Product.all[i].name === event.target.title){
         Product.all[i].votes++;
+        clicks++;
         console.table(Product.all[i]);
       }
     }
