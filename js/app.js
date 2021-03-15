@@ -60,7 +60,7 @@ function theResults() {
   for (let i = 0; i < products.length; i++) {
     let resultList = document.createElement('li');
     unorderedList.appendChild(resultList);
-    let final = products[i] + ' has ' + Product.all[i].views + ' votes, ' + ' and was seen ' + Product.all[i].votes + ' times.';
+    let final = products[i] + ' has ' + Product.all[i].votes + ' votes, ' + ' and was seen ' + Product.all[i].views + ' times.';
     resultList.innerText = final;
   }
   form.appendChild(unorderedList);
