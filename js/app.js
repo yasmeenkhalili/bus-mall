@@ -26,12 +26,12 @@ const imageSection=document.getElementById('imagesSection');
 const leftImage=document.getElementById('leftImage');
 const middleImage=document.getElementById('middleImage');
 const rightImage=document.getElementById('rightImage');
+let clicks=0;
 
 function Product(name,imgExt){
   this.name=name;
   this.views=0;
   this.votes=0;
-  this.clicks=0;
   this.path=`./assets/${name}.${imgExt}`;
   Product.all.push(this);
 }
@@ -46,7 +46,24 @@ for(let i=0;i<products.length;i++){
   }
 
 }
+
+let form=document.getElementById('results');
+
+function theResults(){
+  let unorderedList=document.createElement('ul');
+  for(let i=0;i<products.length;i++){
+    let resultList=document.createElement('li');
+    unorderedList.appendChild(resultList);
+    let final=products[i]+' has '+ Product.all[i].votes+' votes.';
+    resultList.innerText=final;
+  }
+  form.appendChild(unorderedList);
+}
+
 function render(){
+  if (clicks===25){
+    theResults();
+  }
   const leftIndex=randomNumber(0,Product.all.length-1);
   const leftRandomProduct=Product.all[leftIndex];
   leftImage.src=leftRandomProduct.path;
@@ -64,6 +81,9 @@ function render(){
   rightImage.src=rightRandomProduct.path;
   rightImage.title=rightRandomProduct.name;
   rightImage.alt=rightRandomProduct.name;
+
+  clicks++;
+  console.log(clicks);
 }
 
 imageSection.addEventListener('click',clickHandler);
@@ -75,7 +95,7 @@ function clickHandler(event){
         Product.all[i].votes++;
         console.table(Product.all[i]);
       }
-    }Product.clicks++;
+    }
     render();
   }
   if (event.target.id !== 'imagesSection' ){
@@ -83,35 +103,15 @@ function clickHandler(event){
       if (Product.all[i].name === event.target.title){
         Product.all[i].votes++;
         Product.all[i].views++;
-        Product.clicks++;
         console.table(Product.all[i]);
       }
-    }Product.clicks++;
-    console.log(Product.clicks);
+    }
     render();
   }
-  
-  }
 
-
+}
 
 function randomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 render();
-
-
-if (Product.clicks===25){
-    let form=document.getElementById('results');
-    form.addEventListener('View Results', function(event){
-      event.preventDefault();
-      let unorderedList=document.createElement('ul');
-      form.appendChild(unorderedList);
-      for(let i=0;i<products.length;i++){
-        let resultList=document.createElement('li');
-        unorderedList.appendChild(resultList);
-        let final=Product.all[i].name+' has '+ Product.all[i].votes+' votes.';
-        resultList.innerText=final;
-      }
-    });
-}
