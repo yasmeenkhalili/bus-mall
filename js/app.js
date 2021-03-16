@@ -28,8 +28,6 @@ const middleImage = document.getElementById('middleImage');
 const rightImage = document.getElementById('rightImage');
 let clicks = 0;
 
-// Product.data = [];
-
 function Product(name, imgExt) {
   this.name = name;
   this.views = 0;
@@ -48,11 +46,8 @@ function getVoting() {
   const data = localStorage.getItem('products');
   const votingAndViews = JSON.parse(data);
   return votingAndViews;
-  // if (votingAndViews === null) {
-  //   Product.all = votingAndViews;
-  // }
 
-}console.log(getVoting());
+}
 
 
 Product.all = [];
@@ -66,7 +61,6 @@ for (let i = 0; i < products.length; i++) {
   }
 
 }
-
 
 let resultButton = document.getElementById('results');
 resultButton.addEventListener('click', viewResult);
@@ -86,7 +80,6 @@ function theResults() {
     unorderedList.appendChild(resultList);
     let final = products[i] + ' has ' + getVoting()[i].votes + ' votes, ' + ' and was seen ' + getVoting()[i].views + ' times.';
     resultList.innerText = final;
-    // Product.all.push(this);
   }
   resultButton.appendChild(unorderedList);
 }
@@ -131,8 +124,6 @@ function render() {
 imageSection.addEventListener('click', clickHandler);
 render();
 function clickHandler(event) {
-  // const data = localStorage.getItem('[products]');
-  // const votingAndViews = JSON.parse(data);
 
   if (event.target.id === 'leftImage' || event.target.id === 'middleImage' || event.target.id === 'rightImage') {
     let productList = getVoting();
