@@ -27,6 +27,7 @@ const leftImage = document.getElementById('leftImage');
 const middleImage = document.getElementById('middleImage');
 const rightImage = document.getElementById('rightImage');
 let clicks = 0;
+
 // Product.data = [];
 
 function Product(name, imgExt) {
@@ -66,6 +67,7 @@ for (let i = 0; i < products.length; i++) {
 
 }
 
+
 let resultButton = document.getElementById('results');
 resultButton.addEventListener('click', viewResult);
 function viewResult(event) {
@@ -77,6 +79,7 @@ function viewResult(event) {
 
 function theResults() {
   let unorderedList = document.createElement('ul');
+
   unorderedList.innerText='';
   for (let i = 0; i < products.length; i++) {
     let resultList = document.createElement('li');
