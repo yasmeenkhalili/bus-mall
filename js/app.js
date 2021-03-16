@@ -28,6 +28,8 @@ const middleImage = document.getElementById('middleImage');
 const rightImage = document.getElementById('rightImage');
 let clicks = 0;
 
+// Product.data = [];
+
 function Product(name, imgExt) {
   this.name = name;
   this.views = 0;
@@ -35,6 +37,24 @@ function Product(name, imgExt) {
   this.path = `./assets/${name}.${imgExt}`;
   Product.all.push(this);
 }
+
+function updateStorage() {
+  const arrayString = JSON.stringify(Product.all);
+  console.log(arrayString);
+  localStorage.setItem('products', arrayString);
+}
+
+function getVoting() {
+  const data = localStorage.getItem('products');
+  const votingAndViews = JSON.parse(data);
+  return votingAndViews;
+  // if (votingAndViews === null) {
+  //   Product.all = votingAndViews;
+  // }
+
+}console.log(getVoting());
+
+
 Product.all = [];
 for (let i = 0; i < products.length; i++) {
   if (products[i] === 'sweep') {
@@ -47,30 +67,35 @@ for (let i = 0; i < products.length; i++) {
 
 }
 
-let form = document.getElementById('results');
-form.addEventListener('submit', viewResult);
+
+let resultButton = document.getElementById('results');
+resultButton.addEventListener('click', viewResult);
 function viewResult(event) {
-  event.preventDefault();
   theResults();
+  createChart();
+  resultButton.removeEventListener('click',viewResult);
 }
 
 
 function theResults() {
   let unorderedList = document.createElement('ul');
+
+  unorderedList.innerText='';
   for (let i = 0; i < products.length; i++) {
     let resultList = document.createElement('li');
     unorderedList.appendChild(resultList);
-    let final = products[i] + ' has ' + Product.all[i].votes + ' votes, ' + ' and was seen ' + Product.all[i].views + ' times.';
+    let final = products[i] + ' has ' + getVoting()[i].votes + ' votes, ' + ' and was seen ' + getVoting()[i].views + ' times.';
     resultList.innerText = final;
+    // Product.all.push(this);
   }
-  form.appendChild(unorderedList);
+  resultButton.appendChild(unorderedList);
 }
 
 let olderArray = [];
 function render() {
   if (clicks === 25) {
     imageSection.removeEventListener('click', clickHandler);
-    createChart();
+    updateStorage();
   }
   let leftIndex;
   let middleIndex;
@@ -106,7 +131,14 @@ function render() {
 imageSection.addEventListener('click', clickHandler);
 render();
 function clickHandler(event) {
+  // const data = localStorage.getItem('[products]');
+  // const votingAndViews = JSON.parse(data);
+
   if (event.target.id === 'leftImage' || event.target.id === 'middleImage' || event.target.id === 'rightImage') {
+    let productList = getVoting();
+    if (productList === null) {
+      productList = Product.all;
+    }
     for (let i = 0; i < Product.all.length; i++) {
       if (Product.all[i].name === event.target.title) {
         Product.all[i].votes++;
@@ -121,7 +153,6 @@ function clickHandler(event) {
     }
     render();
   }
-
 }
 
 function randomNumber(min, max) {
@@ -134,16 +165,16 @@ function createChart() {
   let getProductsVotes = [];
   let getProductsViews = [];
 
-  for (let i = 0; i < Product.all.length; i++) {
-    getProductsName.push(Product.all[i].name);
+  for (let i = 0; i < products.length; i++) {
+    getProductsName.push(getVoting()[i].name);
   }
 
-  for (let i = 0; i < Product.all.length; i++) {
-    getProductsVotes.push(Product.all[i].votes);
+  for (let i = 0; i < products.length; i++) {
+    getProductsVotes.push(getVoting()[i].votes);
   }
 
-  for (let i = 0; i < Product.all.length; i++) {
-    getProductsViews.push(Product.all[i].views);
+  for (let i = 0; i < products.length; i++) {
+    getProductsViews.push(getVoting()[i].views);
   }
 
   let chart = new Chart(ctx, {
@@ -167,5 +198,4 @@ function createChart() {
     },
     options: {}
   });
-}
-
+} getVoting();
