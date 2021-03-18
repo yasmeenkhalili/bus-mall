@@ -1,5 +1,5 @@
 'use strict';
-
+// The name of products
 const products = [
   'bag',
   'banana',
@@ -28,6 +28,7 @@ const middleImage = document.getElementById('middleImage');
 const rightImage = document.getElementById('rightImage');
 let clicks = 0;
 
+// this is constructor that contains the name of products and its path
 function Product(name, imgExt) {
   this.name = name;
   this.views = 0;
@@ -36,12 +37,14 @@ function Product(name, imgExt) {
   Product.all.push(this);
 }
 
+// set the products to the local storage
 function updateStorage() {
   const arrayString = JSON.stringify(Product.all);
   console.log(arrayString);
   localStorage.setItem('products', arrayString);
 }
 
+// recall the data from the local storage
 function getVoting() {
   const data = localStorage.getItem('products');
   const votingAndViews = JSON.parse(data);
@@ -70,7 +73,7 @@ function viewResult(event) {
   resultButton.removeEventListener('click',viewResult);
 }
 
-
+// the result after did 25 clicks
 function theResults() {
   let unorderedList = document.createElement('ul');
 
@@ -85,6 +88,8 @@ function theResults() {
 }
 
 let olderArray = [];
+
+// control the number of clicks and avoid repeating products
 function render() {
   if (clicks === 25) {
     imageSection.removeEventListener('click', clickHandler);
@@ -123,6 +128,8 @@ function render() {
 
 imageSection.addEventListener('click', clickHandler);
 render();
+
+//  control the 3 products that must appear to the user after each click and calculate # of votes and views
 function clickHandler(event) {
 
   if (event.target.id === 'leftImage' || event.target.id === 'middleImage' || event.target.id === 'rightImage') {
@@ -146,10 +153,12 @@ function clickHandler(event) {
   }
 }
 
+// choose random number of the products array index
 function randomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+// create chart that shows the # of votes and views
 function createChart() {
   let ctx = document.getElementById('myChart').getContext('2d');
   let getProductsName = [];
